@@ -1,0 +1,71 @@
+*{
+    box-sizing: border-box;
+}
+body{
+    position: relative;
+}
+div{
+    display: inline-block;
+    width: 35%;
+    background-color: rebeccapurple;
+    height: 30vh;
+  
+}
+ .panel1:hover{
+    background-color: brown;
+    
+}
+.panel2:hover{
+    background-color: brown;
+}
+.panel3:hover{
+    background-color: brown;
+}
+.panel4:hover{
+    background-color: brown;
+}
+.panel5:hover{
+    background-color: brown;
+}
+
+div.panel1{
+    margin-left: 0%;
+    
+    background-color: aqua;
+    
+}
+div.panel2{
+    position: absolute;
+    right: 0%;
+    
+    background-color: green;
+
+
+}
+div.panel3{
+    margin-left: 35%;
+    display: block;
+    
+    background-color: red;
+    width: 30%;
+    
+}
+div.panel4{
+    position : absolute;
+    right: 0%;
+    
+    background-color: purple;
+    
+    
+}
+div.panel5{
+    
+    
+    
+    background-color: darkblue;
+    
+    
+}
+a{
+    color: black;
+}
