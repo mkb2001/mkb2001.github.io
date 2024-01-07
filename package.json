@@ -1,9 +1,9 @@
 {
   "name": "kevin-portfolio",
   "version": "1.0.0",
-  "description": "A webpage about me and my projects",
+  "description": "My awesome portifolio site",
   "source": "src/index.html",
-  "homepage": "http://mkb2001.github.io/mkb2001.github.io",
+  "homepage": "https://mkb2001.github.io/mkb2001.github.io",
   "scripts": {
     "start": "parcel",
     "build": "parcel build",
@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mkb2001/"
+    "url": "git+https://github.com/microsoft/codespaces-teaching-template-js.git"
   },
   "author": "Microsoft",
   "license": "ISC",
