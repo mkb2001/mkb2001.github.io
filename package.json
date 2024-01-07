@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "A webpage about me and my projects",
   "source": "src/index.html",
-  "homepage": "http://mkb2001.github.io/mkb2001.github.io.",
+  "homepage": "http://mkb2001.github.io/mkb2001.github.io.git",
   "scripts": {
     "start": "parcel",
     "build": "parcel build",
