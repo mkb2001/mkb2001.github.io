@@ -1,13 +1,13 @@
 {
   "name": "kevin-portfolio",
   "version": "1.0.0",
-  "description": "A webpage about me and my projects",
+  "description": "My awesome portifolio site",
   "source": "src/index.html",
-  "homepage": "http://mkb2001.github.io/mkb2001.github.io.git",
+  "homepage": "https://mkb2001.github.io/mkb2001.github.io",
   "scripts": {
     "start": "parcel",
     "build": "parcel build",
-    "build-gh": "parcel build --public-url 'https://mkb2001.github.io/mkb2001.github.io.git'",
+    "build-gh": "parcel build --public-url 'https://mkb2001.github.io/mkb2001.github.io'",
     "predeploy": "npm run build-gh",
     "deploy": "gh-pages -d dist"
   },
