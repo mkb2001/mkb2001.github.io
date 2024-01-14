@@ -28700,8 +28700,8 @@ const Home = ({ name , title  })=>{
 };
 _c = Home;
 Home.defaultProps = {
-    name: "",
-    title: ""
+    name: "Kevin Mugarura",
+    title: "Kevin Mugarura"
 };
 Home.propTypes = {
     name: (0, _propTypesDefault.default).string.isRequired,
