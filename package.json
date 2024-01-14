@@ -1,7 +1,7 @@
 {
-  "name": "kevin-portfolio",
+  "name": "educator-js-codespace-template",
   "version": "1.0.0",
-  "description": "My awesome portifolio site",
+  "description": "Educator JS Codespace Template",
   "source": "src/index.html",
   "homepage": "https://mkb2001.github.io/mkb2001.github.io",
   "scripts": {
