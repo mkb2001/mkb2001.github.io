@@ -28641,12 +28641,14 @@ const Home = ({ name , title  })=>{
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                 style: {
                     position: "absolute",
-                    top: "5rem",
+                    top: "10rem",
                     left: "2rem",
-                    width: "17rem"
+                    width: "12rem",
+                    color: "grey"
                 },
                 children: [
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h1", {
+                        style: {},
                         children: name
                     }, void 0, false, {
                         fileName: "src/Components/Home.jsx",
