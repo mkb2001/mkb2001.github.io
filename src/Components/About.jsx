@@ -10,7 +10,7 @@ import React from "react";
  * About background image
  *
  * Below is a sample image. Upload the image of your choice into the "images"
- * directory and import here for use. Then, set imageAltText to string that
+ * directory and import here for use. Then, set imageAltText to string that 
  * represents what you see in that image.
  *
  * Need an image? Check out https://unsplash.com to download a image you
@@ -36,6 +36,7 @@ const skillsList = [
   "No code or low code Application Development",
   "Embedded Systems Software Development",
   "Schematic layout and PCB design",
+  
 ];
 
 /**
@@ -44,7 +45,7 @@ const skillsList = [
  * about you on a professional level.
  */
 const detailOrQuote =
-  'I am passionate about problem solving and especially African ones. My best quote is ""';
+  "I am passionate about problem solving and especially African ones. My best quote is \"\"";
 
 const About = () => {
   return (

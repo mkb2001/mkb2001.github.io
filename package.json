@@ -1,13 +1,13 @@
 {
-  "name": "kevin-portfolio",
+  "name": "educator-js-codespace-template",
   "version": "1.0.0",
-  "description": "My awesome portifolio site",
+  "description": "Educator JS Codespace Template",
   "source": "src/index.html",
-  "homepage": "https://mkb2001.github.io/mkb2001.github.io",
+  "homepage": "https://github.com/microsoft/codespaces-teaching-template-js#readme",
   "scripts": {
     "start": "parcel",
     "build": "parcel build",
-    "build-gh": "parcel build --public-url 'https://mkb2001.github.io/mkb2001.github.io'",
+    "build-gh": "parcel build --public-url 'https://{github-username}.github.io/{repo-name}'",
     "predeploy": "npm run build-gh",
     "deploy": "gh-pages -d dist"
   },
