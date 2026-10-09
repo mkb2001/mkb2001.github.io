@@ -1,0 +1,897 @@
+@font-face {
+  font-family: "Playfair Display Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400 900;
+  src: url("fonts/playfair-display-latin-wght-normal.woff2") format("woff2-variations");
+}
+
+@font-face {
+  font-family: "JetBrains Mono Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 800;
+  src: url("fonts/jetbrains-mono-latin-wght-normal.woff2") format("woff2-variations");
+}
+
+/*
+ * Design tokens: Air Traffic Control / Global Transit. "Elegant industrial": a deep abyss,
+ * soft cloud text, and two signal colours that each have one job.
+ * --amber marks Kampala and anything active. --transit is the orbit, the routes and the rails.
+ */
+:root {
+  --abyss: #0a0a0c;
+  --panel: #131317;
+  --cloud: #e8e8e6;
+  --mist: #8e8e93;
+  --line: #26262c;
+  --amber: #ff8c00;
+  --transit: #4a90e2;
+
+  --serif: "Playfair Display Variable", "Didot", Georgia, serif;
+  --mono: "JetBrains Mono Variable", ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+  /* Type scale, ratio 1.25 from a 16px mono body. Display sizes are deliberately oversized. */
+  --step--2: 0.6875rem;
+  --step--1: 0.8125rem;
+  --step-0: 1rem;
+  --step-1: 1.25rem;
+  --step-2: clamp(1.6rem, 1.2rem + 1.6vw, 2.4rem);
+  --step-3: clamp(2rem, 1.4rem + 2.6vw, 3.4rem);
+  --step-4: clamp(3.2rem, 1.6rem + 6.4vw, 7.5rem);
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 1rem;
+  --space-4: 1.5rem;
+  --space-5: 2.25rem;
+  --space-6: 3.5rem;
+  --space-7: 6rem;
+
+  --measure: 40rem;
+  --page: 76rem;
+  --gutter: clamp(1rem, 4vw, 3rem);
+
+  --heavy: cubic-bezier(0.16, 1, 0.3, 1);
+
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-padding-top: 4.5rem;
+}
+
+/* Lenis adds these classes when smooth scrolling is on. */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-stopped {
+  overflow: clip;
+}
+
+body {
+  margin: 0;
+  background: var(--abyss);
+  color: var(--cloud);
+  font-family: var(--mono);
+  font-size: var(--step-0);
+  line-height: 1.7;
+  overflow-x: clip;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--serif);
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+  margin: 0;
+}
+
+p {
+  margin: 0 0 var(--space-3);
+  text-wrap: pretty;
+}
+
+a {
+  color: var(--cloud);
+  text-decoration-color: var(--amber);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.3em;
+}
+
+a:hover {
+  color: var(--amber);
+}
+
+:focus-visible {
+  outline: 2px solid var(--amber);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Small uppercase mono with wide tracking: labels, links, the bio and the clock. */
+.label {
+  font-family: var(--mono);
+  font-size: var(--step--1);
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.skip {
+  position: absolute;
+  left: var(--gutter);
+  top: -3rem;
+  padding: var(--space-2) var(--space-3);
+  background: var(--cloud);
+  color: var(--abyss);
+  z-index: 20;
+}
+
+.skip:focus {
+  top: var(--space-2);
+}
+
+.page {
+  max-width: var(--page);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+/*
+ * Transit map: far in the background, routes between nodes drawn slowly by js/transit.js.
+ * Without JavaScript the layer is empty.
+ */
+.transit {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.transit .route {
+  fill: none;
+  stroke: var(--transit);
+  stroke-width: 1;
+  stroke-opacity: 0.16;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.transit .route-hot {
+  stroke: var(--amber);
+  stroke-opacity: 0.22;
+}
+
+.transit .node {
+  fill: var(--abyss);
+  stroke: var(--transit);
+  stroke-opacity: 0.3;
+  stroke-width: 1;
+}
+
+/* Masthead */
+.masthead {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: color-mix(in srgb, var(--abyss) 85%, transparent);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
+}
+
+.masthead-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-2) var(--space-4);
+  min-height: 3.5rem;
+}
+
+.masthead a {
+  color: var(--mist);
+  text-decoration: none;
+}
+
+.masthead a:hover,
+.masthead a[aria-current="true"] {
+  color: var(--cloud);
+}
+
+.masthead-name {
+  color: var(--cloud) !important;
+}
+
+nav {
+  display: flex;
+  gap: var(--space-4);
+}
+
+nav a[aria-current="true"]::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 0.6em;
+  border-radius: 50%;
+  background: var(--amber);
+  vertical-align: 0.15em;
+}
+
+.trail {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 1px;
+}
+
+.trail-fill {
+  position: absolute;
+  inset: 0;
+  background: var(--amber);
+  transform-origin: left center;
+  transform: scaleX(0);
+}
+
+/* Hero */
+.hero {
+  display: grid;
+  gap: var(--space-5) var(--space-6);
+  min-height: calc(100svh - 3.5rem);
+  align-content: center;
+  padding-top: var(--space-6);
+  padding-bottom: var(--space-6);
+}
+
+@media (min-width: 62rem) {
+  .hero {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    align-items: center;
+  }
+}
+
+.hero h1 {
+  font-size: var(--step-4);
+  font-weight: 500;
+  line-height: 0.95;
+  letter-spacing: -0.025em;
+}
+
+/* The mask the name slides up from behind. */
+.reveal-line {
+  display: block;
+  overflow: clip;
+  padding-bottom: 0.08em;
+}
+
+.bio {
+  max-width: 34rem;
+  margin: var(--space-5) 0 0;
+  line-height: 2;
+  color: var(--cloud);
+}
+
+/* The caption cursor that follows the bio as it types out. */
+.caret {
+  display: inline-block;
+  width: 0.55em;
+  height: 1.1em;
+  margin-left: 0.15em;
+  vertical-align: -0.2em;
+  background: var(--amber);
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-5);
+  margin-top: var(--space-5);
+}
+
+.links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  text-decoration: none;
+}
+
+/* Speech waves: four bars that pulse beside a link on hover or focus (js/waves.js). */
+.wave {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  height: 0.9em;
+}
+
+.wave i {
+  display: block;
+  width: 2px;
+  height: 100%;
+  background: var(--amber);
+  transform: scaleY(0.2);
+  transform-origin: center;
+}
+
+/*
+ * The telemetry globe: a WebGL canvas drawn by js/telemetry.js. Until it has drawn (or if WebGL
+ * is unavailable) the flat SVG dial below stands in.
+ */
+.telemetry {
+  position: relative;
+  width: 100%;
+  max-width: 36rem;
+  aspect-ratio: 1;
+  justify-self: center;
+  margin: 0;
+}
+
+.telemetry canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+  cursor: grab;
+}
+
+.telemetry.is-dragging canvas {
+  cursor: grabbing;
+}
+
+.telemetry .hour-tag {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  font-size: var(--step--2);
+  color: var(--mist);
+  pointer-events: none;
+}
+
+.telemetry-legend {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-2) var(--space-4);
+  font-size: var(--step--2);
+  color: var(--mist);
+}
+
+/* An author display value beats the UA rule for [hidden], so restate it. */
+.telemetry-legend[hidden] {
+  display: none;
+}
+
+.telemetry-legend span::before {
+  content: "";
+  display: inline-block;
+  width: 14px;
+  height: 2px;
+  margin-right: 0.6em;
+  vertical-align: 0.3em;
+  background: currentColor;
+}
+
+.telemetry-legend .key-me {
+  color: var(--amber);
+}
+
+.telemetry-legend .key-you {
+  color: var(--cloud);
+}
+
+.telemetry-legend .key-ring {
+  color: var(--transit);
+}
+
+/* The keyboard control for the plane: a real range input, visible only when focused. */
+.hour-control {
+  position: absolute;
+  left: 50%;
+  bottom: 2.25rem;
+  width: 60%;
+  transform: translateX(-50%);
+  opacity: 0;
+  accent-color: var(--amber);
+}
+
+.hour-control:focus-visible {
+  opacity: 1;
+}
+
+/* Fallback dial, shown only without WebGL. */
+.dial {
+  position: absolute;
+  inset: 0;
+}
+
+.telemetry.has-3d .dial,
+.dial[hidden] {
+  display: none;
+}
+
+.dial svg {
+  width: 100%;
+  height: 100%;
+}
+
+.dial .ring {
+  fill: none;
+  stroke: var(--transit);
+  stroke-width: 1;
+  stroke-dasharray: 2 6;
+}
+
+.dial .arc {
+  fill: none;
+  stroke-linecap: round;
+  stroke-width: 4;
+}
+
+.dial .arc-me {
+  stroke: var(--amber);
+}
+
+.dial .arc-you {
+  stroke: var(--cloud);
+}
+
+.dial .globe {
+  fill: var(--panel);
+  stroke: var(--transit);
+  stroke-opacity: 0.5;
+}
+
+.dial .home {
+  fill: var(--amber);
+}
+
+.dial .plane {
+  fill: var(--cloud);
+}
+
+/*
+ * HUD: the high-precision Kampala clock, fixed bottom right. While the plane is dragged it shows
+ * the chosen hour on both clocks instead.
+ */
+.hud {
+  position: fixed;
+  right: var(--gutter);
+  bottom: var(--space-4);
+  z-index: 9;
+  display: grid;
+  gap: 0.15rem;
+  padding: 0.7rem 0.9rem;
+  border: 1px solid var(--line);
+  border-left: 2px solid var(--amber);
+  background: color-mix(in srgb, var(--abyss) 88%, transparent);
+  backdrop-filter: blur(6px);
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
+}
+
+.hud[hidden] {
+  display: none;
+}
+
+.hud-label {
+  font-size: var(--step--2);
+  color: var(--mist);
+}
+
+.hud-time {
+  font-size: var(--step-1);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.hud-sub {
+  color: var(--mist);
+  font-size: 0.7em;
+}
+
+.hud-us {
+  color: var(--amber);
+}
+
+/* Browsers do not measure nanoseconds; these digits roll as a display effect (see js/hours.js). */
+.hud-ns {
+  color: var(--amber);
+  opacity: 0.55;
+}
+
+.hud-date {
+  margin-left: 0.6em;
+  color: var(--cloud);
+}
+
+.hud-scrub {
+  font-size: var(--step--2);
+  color: var(--amber);
+}
+
+@media (max-width: 40rem) {
+  .hud {
+    right: 50%;
+    transform: translateX(50%);
+    bottom: var(--space-3);
+  }
+}
+
+/* Section blocks: heading in a narrow left column, content on the right. */
+.block {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-4);
+  padding-top: var(--space-5);
+  padding-bottom: var(--space-7);
+}
+
+.block::before {
+  content: "";
+  grid-column: 1 / -1;
+  border-top: 1px solid var(--line);
+}
+
+.block-title {
+  font-size: var(--step-3);
+}
+
+@media (min-width: 52rem) {
+  .block {
+    grid-template-columns: 16rem minmax(0, 1fr);
+    column-gap: var(--space-6);
+  }
+}
+
+/* Featured project */
+.featured {
+  max-width: 46rem;
+  margin-bottom: var(--space-6);
+}
+
+.featured-meta,
+.project-meta,
+.role-org,
+.role-dates,
+.stack {
+  font-size: var(--step--1);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--mist);
+}
+
+.featured-meta,
+.project-meta,
+.role-org {
+  margin-bottom: var(--space-2);
+}
+
+.featured h3 {
+  font-size: var(--step-3);
+  margin-bottom: var(--space-4);
+}
+
+.featured-outcome {
+  font-family: var(--serif);
+  font-size: var(--step-2);
+  line-height: 1.25;
+  color: var(--amber);
+  margin-bottom: var(--space-5);
+}
+
+.featured-text {
+  max-width: var(--measure);
+}
+
+/* Call path: how a call moves through the AIBOS platform. A column on narrow screens, a row on wide ones. */
+.callpath {
+  margin: 0 0 var(--space-5);
+  padding: var(--space-4);
+  background: var(--panel);
+  border: 1px solid var(--line);
+}
+
+.steps {
+  position: relative;
+  list-style: none;
+  margin: 0 0 var(--space-3);
+  padding: 0;
+  display: grid;
+  gap: var(--space-4);
+}
+
+.step {
+  position: relative;
+  font-size: var(--step--1);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--line);
+  background: var(--abyss);
+}
+
+.step-live {
+  border-color: var(--amber);
+}
+
+.store {
+  display: block;
+  margin-top: var(--space-2);
+  padding-top: var(--space-2);
+  border-top: 1px dashed var(--line);
+  color: var(--mist);
+}
+
+/* Connectors. The two either side of the stream service carry live audio. */
+.step:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: var(--space-4);
+  top: 100%;
+  height: var(--space-4);
+  border-left: 1px solid var(--transit);
+  transform-origin: top center;
+  transform: scaleY(var(--draw, 1));
+}
+
+.step:nth-child(2)::after,
+.step-live::after {
+  border-color: var(--amber);
+}
+
+@media (min-width: 40rem) {
+  .steps {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    align-items: start;
+  }
+
+  .step:not(:last-child)::after {
+    left: 100%;
+    top: 1.15rem;
+    width: var(--space-4);
+    height: 0;
+    border-left: 0;
+    border-top: 1px solid var(--transit);
+    transform-origin: left center;
+    transform: scaleX(var(--draw, 1));
+  }
+
+  .step:nth-child(2)::after,
+  .step-live::after {
+    border-color: var(--amber);
+  }
+}
+
+/* The signal js/motion.js sends along the live audio path. */
+.signal {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
+  border-radius: 50%;
+  background: var(--amber);
+  box-shadow: 0 0 10px var(--amber);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.callpath figcaption {
+  font-size: var(--step--1);
+  color: var(--mist);
+  max-width: var(--measure);
+}
+
+/* Other projects */
+.projects {
+  display: grid;
+  gap: var(--space-5) var(--space-6);
+}
+
+@media (min-width: 40rem) {
+  .projects {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.project h3 {
+  font-size: var(--step-1);
+  margin-bottom: var(--space-1);
+}
+
+.project h3 a {
+  color: inherit;
+}
+
+.project p:not(.project-meta, .stack) {
+  font-size: var(--step--1);
+  line-height: 1.75;
+}
+
+/* Experience: a rail down the left of the roles, drawn by js/motion.js as the page scrolls. */
+.roles {
+  position: relative;
+  margin: 0;
+  padding: 0 0 0 var(--space-4);
+  list-style: none;
+  display: grid;
+  gap: var(--space-5);
+}
+
+.roles::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.4rem;
+  bottom: 0.4rem;
+  width: 1px;
+  background: var(--transit);
+  transform-origin: top center;
+  transform: scaleY(var(--flight, 1));
+}
+
+.role {
+  position: relative;
+  display: grid;
+  gap: var(--space-1) var(--space-4);
+}
+
+.role::before {
+  content: "";
+  position: absolute;
+  left: calc(-1 * var(--space-4) - 4px);
+  top: 0.45rem;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--abyss);
+  border: 1px solid var(--amber);
+}
+
+@media (min-width: 40rem) {
+  .role {
+    grid-template-columns: 11rem minmax(0, 1fr);
+  }
+}
+
+.role-dates {
+  padding-top: 0.2rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.role h3 {
+  font-size: var(--step-1);
+}
+
+.role-points {
+  max-width: var(--measure);
+  font-size: var(--step--1);
+  line-height: 1.75;
+}
+
+.role-points li {
+  padding-left: var(--space-3);
+  position: relative;
+  margin-bottom: var(--space-2);
+}
+
+.role-points li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.8em;
+  width: 0.4rem;
+  height: 1px;
+  background: var(--mist);
+}
+
+/* Skills */
+.skills {
+  margin: 0 0 var(--space-5);
+  display: grid;
+  gap: var(--space-3);
+}
+
+.skills div {
+  display: grid;
+  gap: 0 var(--space-4);
+}
+
+@media (min-width: 40rem) {
+  .skills div {
+    grid-template-columns: 11rem minmax(0, 1fr);
+  }
+}
+
+.skills dt {
+  font-size: var(--step--1);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--mist);
+}
+
+.skills dd {
+  margin: 0;
+  font-size: var(--step--1);
+}
+
+.credentials {
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background: var(--panel);
+  border: 1px solid var(--line);
+}
+
+.credentials li {
+  display: grid;
+}
+
+.credentials strong {
+  font-weight: 500;
+  font-size: var(--step--1);
+}
+
+.credentials span {
+  color: var(--mist);
+  font-size: var(--step--1);
+}
+
+/* Contact */
+.contact-lead {
+  max-width: var(--measure);
+}
+
+.contact-email {
+  display: inline-block;
+  font-family: var(--serif);
+  font-size: var(--step-3);
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+  margin: var(--space-2) 0 var(--space-3);
+}
+
+.footer {
+  padding-bottom: var(--space-7);
+  color: var(--mist);
+  font-size: var(--step--1);
+}

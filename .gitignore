@@ -1,24 +1,17 @@
-# Logs
-logs
-*.log
+# local scratch from planning tools
+.superpowers/
 
-# Build files generated from Parcel
-dist
-
-# Dependency directories
+# dependencies (none are needed, but keep stray installs out)
 node_modules/
 
-# Optional npm cache directory
-.npm
+# logs
+*.log
 
-# Optional eslint cache
-.eslintcache
-
-# dotenv environment variables file
+# environment
 .env
-.env.test
+.env.*
 
-# parcel-bundler cache (https://parceljs.org/)
-.parcel-cache
-
+# editors / OS
 .DS_Store
+.vscode/
+.idea/

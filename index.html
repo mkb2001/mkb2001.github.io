@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Kevin Mugarura, software engineer in Kampala</title>
+    <meta name="description" content="Kevin Mugarura is a software engineer in Kampala who builds backend services, real-time pipelines and cloud-native infrastructure. Open to remote roles." />
+    <meta name="author" content="Kevin Byarugaba Mugarura" />
+    <link rel="canonical" href="https://mkb2001.github.io/" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <meta name="theme-color" content="#0f1736" />
+    <meta name="color-scheme" content="dark" />
+
+    <meta property="og:type" content="profile" />
+    <meta property="og:title" content="Kevin Mugarura, software engineer in Kampala" />
+    <meta property="og:description" content="Kevin Mugarura is a software engineer in Kampala who builds backend services, real-time pipelines and cloud-native infrastructure. Open to remote roles." />
+    <meta property="og:url" content="https://mkb2001.github.io/" />
+    <meta name="twitter:card" content="summary" />
+
+    <link rel="preload" href="fonts/playfair-display-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="fonts/jetbrains-mono-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="styles.css" />
+    <!-- Animation libraries, self-hosted. Deferred scripts and modules run in this order after parsing. -->
+    <script defer src="js/vendor/gsap.min.js"></script>
+    <script defer src="js/vendor/ScrollTrigger.min.js"></script>
+    <script defer src="js/vendor/CustomEase.min.js"></script>
+    <script defer src="js/vendor/SplitText.min.js"></script>
+    <script defer src="js/vendor/ScrambleTextPlugin.min.js"></script>
+    <script defer src="js/vendor/lenis.min.js"></script>
+    <script type="module" src="js/hours.js"></script>
+    <script type="module" src="js/telemetry.js"></script>
+    <script type="module" src="js/transit.js"></script>
+    <script type="module" src="js/waves.js"></script>
+    <script type="module" src="js/motion.js"></script>
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+
+    <svg class="transit" data-transit aria-hidden="true"></svg>
+
+    <header class="masthead">
+      <div class="page masthead-inner label">
+        <a class="masthead-name" href="#main">Kevin Mugarura</a>
+        <nav aria-label="Sections">
+          <a href="#work">Work</a>
+          <a href="#experience">Experience</a>
+          <a href="#contact">Contact</a>
+        </nav>
+      </div>
+      <div class="trail" aria-hidden="true"><span class="trail-fill" data-trail></span></div>
+    </header>
+
+    <main id="main" tabindex="-1">
+      <section class="page hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <h1 id="hero-title">
+            <span class="reveal-line"><span data-reveal>Kevin</span></span>
+            <span class="reveal-line"><span data-reveal>Mugarura</span></span>
+          </h1>
+          <p class="bio label" data-bio>I am a software engineer based in Kampala. Most of my work is on the backend: services, data pipelines, and the containers and clusters they run on. Away from work I am interested in planes, trains and speech.</p>
+          <ul class="links label">
+            <li><a href="mailto:kevinmugarura051@gmail.com"><span class="wave" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Email</a></li>
+            <li><a href="https://github.com/mkb2001"><span class="wave" aria-hidden="true"><i></i><i></i><i></i><i></i></span>GitHub</a></li>
+            <li><a href="https://www.linkedin.com/in/kevinmugarurab"><span class="wave" aria-hidden="true"><i></i><i></i><i></i><i></i></span>LinkedIn</a></li>
+          </ul>
+        </div>
+
+        <!--
+          Telemetry: a 3D radar globe with Kampala marked and a plane on a 24-hour orbit, drawn by
+          js/telemetry.js. data-offset and data-start/data-end are Kevin's UTC offset and working
+          hours on the Kampala clock. If you change them, also change "UTC+3" in the HUD below.
+        -->
+        <figure class="telemetry" data-telemetry data-offset="3" data-start="9" data-end="18">
+          <figcaption class="visually-hidden">My working day and yours on a 24-hour orbit around the Earth, with Kampala marked</figcaption>
+          <div class="dial" data-dial hidden aria-hidden="true">
+            <svg viewBox="0 0 400 400">
+              <circle class="ring" cx="200" cy="200" r="150" />
+              <path class="arc arc-you" data-arc-you />
+              <path class="arc arc-me" data-arc-me />
+              <circle class="globe" cx="200" cy="200" r="90" />
+              <circle class="home" cx="200" cy="200" r="4" />
+              <path class="plane" data-plane-2d d="M -10 -3 L 6 -3 L 12 0 L 6 3 L -10 3 Z M -2 -3 L -6 -11 L -2 -11 L 4 -3 Z M -2 3 L -6 11 L -2 11 L 4 3 Z" />
+            </svg>
+          </div>
+          <input class="hour-control" type="range" min="0" max="24" step="0.25" value="12" data-hour-control aria-label="Compare an hour on both clocks" hidden />
+          <p class="telemetry-legend label" aria-hidden="true" hidden data-legend>
+            <span class="key-me">My day</span><span class="key-you">Your day</span><span class="key-ring">24h orbit</span>
+          </p>
+        </figure>
+      </section>
+
+      <section class="page block" id="work" aria-labelledby="work-title">
+        <h2 id="work-title" class="block-title">Selected work</h2>
+        <div class="block-body">
+          <article class="featured">
+            <p class="featured-meta">AIBOS Uganda, 2024 – 2026</p>
+            <h3>An AI voice platform for customer phone calls</h3>
+            <p class="featured-outcome">About 40 companies running pilots within two months of release.</p>
+
+            <figure class="callpath">
+              <ol class="steps">
+                <li class="step">Caller</li>
+                <li class="step">Twilio</li>
+                <li class="step step-live">Audio stream service<span class="store">PostgreSQL</span></li>
+                <li class="step">OpenAI voice model</li>
+              </ol>
+              <figcaption>A call comes in through Twilio. The stream service carries the audio to and from the voice model in real time, and stores the conversation and customer data in PostgreSQL. The services run on Google Cloud Run.</figcaption>
+            </figure>
+
+            <div class="featured-text">
+              <p>I owned the call pipeline end to end, which meant the telephony integration, the audio streaming, and the backend services and schema behind them. I also built the web dashboard and the authentication that pilot companies used to manage their accounts.</p>
+              <p>Working directly with those companies taught me how to turn a problem someone describes on a call into something that can be shipped and supported in production.</p>
+            </div>
+            <p class="stack"><span class="visually-hidden">Built with: </span>Python, TypeScript, React, PostgreSQL, Twilio, OpenAI voice models, Google Cloud Run</p>
+          </article>
+
+          <ul class="projects">
+            <li class="project">
+              <h3>Data ingestion pipelines</h3>
+              <p class="project-meta">National Social Security Fund, 2024</p>
+              <p>I designed pipelines for real-time and batch processing of member data at Uganda's national pension fund, and built an event-driven notification system for the internal dashboards. The services were containerised and deployed on Kubernetes.</p>
+              <p class="stack"><span class="visually-hidden">Built with: </span>Docker, Kubernetes, Event-driven architecture, MarianMT, M2M100</p>
+            </li>
+            <li class="project">
+              <h3>Gig work app with Mobile Money</h3>
+              <p class="project-meta">Sciencehub, 2023</p>
+              <p>A Flutter app that connects young people with short-term work. I built it from the start, integrated MTN Mobile Money for payments, and added offline support so it stays usable where the connection is poor.</p>
+              <p class="stack"><span class="visually-hidden">Built with: </span>Flutter, MoMo API, Offline-first</p>
+            </li>
+            <li class="project">
+              <h3>DairyFarm</h3>
+              <p class="project-meta">Personal project</p>
+              <p>An offline-first Flutter app built for a working dairy farm. The connection on the farm is unreliable, so the app records everything locally and syncs when it can.</p>
+              <p class="stack"><span class="visually-hidden">Built with: </span>Flutter, Offline-first</p>
+            </li>
+            <li class="project">
+              <h3>Fact-checking and process automation</h3>
+              <p class="project-meta">AIBOS Uganda, 2025</p>
+              <p>Fact-checking systems built on transformer models, defect detection and predictive maintenance for industrial processes, and an automated code-review assistant for our own engineering team.</p>
+              <p class="stack"><span class="visually-hidden">Built with: </span>Python, BERT, RoBERTa, LLMs</p>
+            </li>
+            <li class="project">
+              <h3><a href="https://github.com/mkb2001/studentfeedbacksystem">Student Feedback System</a></h3>
+              <p class="project-meta">Open source, Makerere University, 2023</p>
+              <p>A web app for collecting feedback from students about the services they get from the university. Student researchers later used it to collect data for their own work.</p>
+              <p class="stack"><span class="visually-hidden">Built with: </span>React, SQL</p>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="page block" id="experience" aria-labelledby="experience-title">
+        <h2 id="experience-title" class="block-title">Experience</h2>
+        <ol class="block-body roles">
+          <li class="role">
+            <p class="role-dates"><time>Sep 2024</time> to <time>Jul 2026</time></p>
+            <div>
+              <h3>Software Engineering Manager</h3>
+              <p class="role-org">AIBOS Uganda Limited</p>
+              <ul class="role-points">
+                <li>Architected and built the AI voice platform described above, and the dashboard and authentication that pilot companies used.</li>
+                <li>Built backend services and AI-powered internal tools for workflow automation in Python and TypeScript on PostgreSQL.</li>
+                <li>Coordinated the engineering, machine learning and frontend teams on two product initiatives, mentored junior engineers, and sat on the internal AI steering group.</li>
+              </ul>
+            </div>
+          </li>
+          <li class="role">
+            <p class="role-dates"><time>Jun 2024</time> to <time>Aug 2024</time></p>
+            <div>
+              <h3>Software Engineering Intern</h3>
+              <p class="role-org">National Social Security Fund</p>
+              <ul class="role-points">
+                <li>Designed real-time and batch data-ingestion pipelines and built an event-driven notification system.</li>
+                <li>Refactored legacy backend services into modules and deployed containerised services on Kubernetes.</li>
+              </ul>
+            </div>
+          </li>
+          <li class="role">
+            <p class="role-dates"><time>Nov 2023</time> to <time>Jan 2024</time></p>
+            <div>
+              <h3>Mobile Developer</h3>
+              <p class="role-org">Sciencehub</p>
+              <ul class="role-points">
+                <li>Built and shipped a Flutter gig-work app with Mobile Money payments and offline support.</li>
+              </ul>
+            </div>
+          </li>
+          <li class="role">
+            <p class="role-dates"><time>Jan 2022</time> to <time>May 2025</time></p>
+            <div>
+              <h3>Co-founder and Backend Lead</h3>
+              <p class="role-org">Afrilearn</p>
+              <ul class="role-points">
+                <li>Co-founded a six-person ed-tech startup with other students. I led the Java backend and owned deployment and frontend integration until we wound the company down in May 2025.</li>
+              </ul>
+            </div>
+          </li>
+        </ol>
+      </section>
+
+      <section class="page block" id="skills" aria-labelledby="skills-title">
+        <h2 id="skills-title" class="block-title">Skills and credentials</h2>
+        <div class="block-body">
+          <dl class="skills">
+            <div>
+              <dt>Languages</dt>
+              <dd>Python, TypeScript, JavaScript, Java, SQL, Bash</dd>
+            </div>
+            <div>
+              <dt>Backend</dt>
+              <dd>REST APIs, event-driven architecture, real-time and batch pipelines, authentication, PostgreSQL</dd>
+            </div>
+            <div>
+              <dt>Infrastructure</dt>
+              <dd>Docker, Kubernetes, Google Cloud Run, AWS, CI/CD, Linux, Git</dd>
+            </div>
+            <div>
+              <dt>AI and voice</dt>
+              <dd>Twilio, OpenAI voice models, LLM tooling, transformer models</dd>
+            </div>
+            <div>
+              <dt>Frontend and mobile</dt>
+              <dd>React, Flutter, offline-first apps</dd>
+            </div>
+            <div>
+              <dt>Payments</dt>
+              <dd>MTN Mobile Money (MoMo) API</dd>
+            </div>
+          </dl>
+          <ul class="credentials">
+            <li>
+              <strong>Kubernetes and Cloud Native Associate (KCNA)</strong>
+              <span>The Linux Foundation, July 2025</span>
+            </li>
+            <li>
+              <strong>Kubernetes and Cloud Native Essentials (LFS250)</strong>
+              <span>The Linux Foundation, June 2025</span>
+            </li>
+            <li>
+              <strong>B.Sc. Software Engineering, Makerere University</strong>
+              <span>Graduated February 2026 with a CGPA of 4.01 out of 5</span>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="page block contact" id="contact" aria-labelledby="contact-title">
+        <h2 id="contact-title" class="block-title">Contact</h2>
+        <div class="block-body">
+          <p class="contact-lead">If you want to say hello, email me. I usually reply within a day.</p>
+          <a class="contact-email" href="mailto:kevinmugarura051@gmail.com">kevinmugarura051@gmail.com</a>
+          <ul class="links">
+            <li><a href="https://github.com/mkb2001">GitHub</a></li>
+            <li><a href="https://www.linkedin.com/in/kevinmugarurab">LinkedIn</a></li>
+          </ul>
+        </div>
+      </section>
+    </main>
+
+    <footer class="page footer">
+      <p>&copy; <span data-year>2026</span> Kevin Byarugaba Mugarura.</p>
+    </footer>
+    <aside class="hud label" data-hud hidden aria-hidden="true">
+      <span class="hud-label">Kampala UTC+3 <span class="hud-date" data-date></span></span>
+      <span class="hud-time"><span data-hms>--:--:--</span><span class="hud-sub">.<span data-ms>000</span><span class="hud-us" data-us>000</span><span class="hud-ns" data-ns>000</span></span></span>
+      <span class="hud-scrub" data-scrub hidden></span>
+    </aside>
+  </body>
+</html>
