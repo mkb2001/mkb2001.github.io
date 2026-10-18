@@ -17,7 +17,7 @@
 /*
  * Design tokens: Air Traffic Control / Global Transit. "Elegant industrial": a deep abyss,
  * soft cloud text, and two signal colours that each have one job.
- * --amber marks Kampala and anything active. --transit is the orbit, the routes and the rails.
+ * --amber marks Kampala and anything active. --transit is the routes and the rails.
  */
 :root {
   --abyss: #0a0a0c;
@@ -281,7 +281,7 @@ nav a[aria-current="true"]::before {
 
 @media (min-width: 62rem) {
   .hero {
-    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     align-items: center;
   }
 }
@@ -349,143 +349,355 @@ nav a[aria-current="true"]::before {
 }
 
 /*
- * The telemetry globe: a WebGL canvas drawn by js/telemetry.js. Until it has drawn (or if WebGL
- * is unavailable) the flat SVG dial below stands in.
+ * The hero motherboard. tools/board/build.mjs draws it with the iso kit; js/board.js builds it part
+ * by part while the hero is pinned, then powers it on. Without JavaScript the finished board shows.
+ *
+ * The kit's tokens, tuned to the page: the paper is the page colour, so each solid hides what is
+ * behind it; the lit edge is --cloud. --amber marks the stage being built and, at power-on, the
+ * rails that are live; --transit is the signals.
  */
-.telemetry {
-  position: relative;
+.iso {
+  --anatomy-paper: var(--abyss);
+  --anatomy-face: #141418;
+  --anatomy-top: #18181d;
+  --anatomy-shade-0: #0c0c0f;
+  --anatomy-shade-1: #0f0f13;
+  --anatomy-shade-2: #121216;
+  --anatomy-shade-3: #15151a;
+  --anatomy-lit-top: #232329;
+  --anatomy-lit-shade: #1b1b21;
+  --anatomy-hi: #d9d9d5;
+  --anatomy-mid: #73737a;
+  --anatomy-lo: #3f3f46;
+  --anatomy-faint: #28282f;
+  --anatomy-lit: var(--cloud);
+  --anatomy-halo: #000;
+  --anatomy-halo-opacity: 0.9;
+  --anatomy-dot: var(--cloud);
+  --anatomy-weight: 0.6px;
+  --anatomy-mono: var(--mono);
+}
+
+.iso-svg { display: block; width: 100%; height: auto; overflow: visible; }
+.iso-svg path, .iso-svg circle { vector-effect: non-scaling-stroke; }
+.iso-fill { fill: var(--anatomy-paper); stroke: none; }
+.iso-solid[data-lit] > .iso-fill { fill: var(--anatomy-face); }
+.iso-shade, .iso-top { stroke: none; }
+.iso-shade[data-shade="0"] { fill: var(--anatomy-shade-0); }
+.iso-shade[data-shade="1"] { fill: var(--anatomy-shade-1); }
+.iso-shade[data-shade="2"] { fill: var(--anatomy-shade-2); }
+.iso-shade[data-shade="3"] { fill: var(--anatomy-shade-3); }
+.iso-top { fill: var(--anatomy-top); }
+.iso-solid[data-seamless] > .iso-shade, .iso-solid[data-seamless] > .iso-top { stroke-width: 0.4; stroke-linejoin: round; }
+.iso-solid[data-seamless] > .iso-shade[data-shade="0"] { stroke: var(--anatomy-shade-0); }
+.iso-solid[data-seamless] > .iso-shade[data-shade="1"] { stroke: var(--anatomy-shade-1); }
+.iso-solid[data-seamless] > .iso-shade[data-shade="2"] { stroke: var(--anatomy-shade-2); }
+.iso-solid[data-seamless] > .iso-shade[data-shade="3"] { stroke: var(--anatomy-shade-3); }
+.iso-solid[data-seamless] > .iso-top { stroke: var(--anatomy-top); }
+.iso-halo { fill: var(--anatomy-halo); stroke: none; filter: blur(9px); opacity: var(--anatomy-halo-opacity); transform: translateY(3px); }
+.iso-line { fill: none; stroke: var(--anatomy-lo); stroke-width: var(--anatomy-weight); stroke-linecap: round; stroke-linejoin: round; }
+.iso-line[data-tone="hi"] { stroke: var(--anatomy-hi); }
+.iso-line[data-tone="mid"] { stroke: var(--anatomy-mid); }
+.iso-line[data-tone="lo"] { stroke: var(--anatomy-lo); }
+.iso-line[data-tone="faint"] { stroke: var(--anatomy-faint); }
+.iso-line[data-tone="lit"] { stroke: var(--anatomy-lit); }
+.iso-dots circle { fill: var(--anatomy-dot); stroke: none; opacity: 0.32; }
+.iso-dots[data-tone="hi"] circle { opacity: 0.85; }
+.iso-dots[data-tone="mid"] circle { opacity: 0.45; }
+.iso-dots[data-tone="lo"] circle { opacity: 0.22; }
+.iso-face-text { fill: var(--anatomy-mid); font-family: var(--anatomy-mono); letter-spacing: 0.04em; }
+.iso-face-text[data-tone="hi"] { fill: var(--anatomy-hi); }
+
+/* Parts of the board that are not kit solids: copper, holes, pins, the solder mask, the silkscreen. */
+.board-svg {
+  --board-copper: #2b1d14;
+  --board-copper-line: #9a6a44;
+  --board-mask: #121317;
+  --board-silk: #a3a3a6;
+}
+.board-bench .iso-top { fill: #0e0e11; }
+.board-copper { fill: var(--board-copper); stroke: none; }
+.board-trace { fill: none; stroke: var(--board-copper-line); stroke-width: 0.45px; stroke-linecap: round; stroke-linejoin: round; }
+.board-holes { fill: none; stroke: var(--abyss); stroke-width: 1.2px; stroke-linecap: round; }
+.board-void { fill: #030304; stroke: none; }
+.board-vias { fill: none; stroke: var(--board-copper-line); stroke-width: 1.1px; stroke-linecap: round; }
+.board-vias-masked { stroke: #2a2a30; }
+.board-mask .iso-top { fill: var(--board-mask); }
+.board-mask-pour { fill: #fff; fill-opacity: 0.045; stroke: none; }
+.board-mask-trace { fill: none; stroke: #fff; stroke-opacity: 0.12; stroke-width: 0.45px; stroke-linecap: round; }
+.board-silk .board-silk-line { stroke: var(--board-silk); stroke-opacity: 0.55; stroke-width: 0.45px; }
+.board-silk .iso-face-text { fill: var(--board-silk); opacity: 0.65; }
+.board-pins { fill: none; stroke: var(--anatomy-mid); stroke-opacity: 0.75; stroke-width: 0.8px; stroke-linecap: round; }
+.board-pins-bright { stroke: var(--anatomy-hi); stroke-opacity: 1; }
+.board-led { fill: #1d1d22; transition: fill 0.25s; }
+.board-led.is-live { fill: var(--amber); }
+
+/*
+ * The power-on: rails glow amber along their copper, signals run as blue pulses and the clock
+ * ticks in white. js/board.js marks each live net's routes and parts with .is-live.
+ */
+.board-net { fill: none; stroke-linecap: round; stroke-linejoin: round; opacity: 0; transition: opacity 0.5s; }
+.board-net[data-kind="power"] { stroke: var(--amber); stroke-width: 2.2px; }
+.board-net[data-kind="signal"] { stroke: var(--transit); stroke-width: 1.3px; stroke-dasharray: 3 9; }
+.board-net[data-kind="clock"] { stroke: var(--cloud); stroke-width: 1px; stroke-dasharray: 1 5; }
+.board-net.is-live { opacity: 0.85; }
+.board-net[data-kind="power"].is-live { opacity: 0.45; }
+.board-net.is-live:not([data-kind="power"]) { animation: board-flow 1.2s linear infinite; }
+[data-glow] .iso-edge { transition: stroke 0.5s; }
+[data-glow].is-live .iso-edge { stroke: var(--amber); }
+
+@keyframes board-flow {
+  to { stroke-dashoffset: -24; }
+}
+
+.board {
   width: 100%;
-  max-width: 36rem;
-  aspect-ratio: 1;
+  max-width: 48rem;
   justify-self: center;
   margin: 0;
 }
 
-.telemetry canvas {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  touch-action: none;
-  cursor: grab;
+/* Beside the introduction, the drawing rises to the top of the pinned hero to make room for its
+   labels, and the introduction stays centred against it. */
+@media (min-width: 62rem) {
+  .js .hero-pin > .hero {
+    align-content: start;
+  }
 }
 
-.telemetry.is-dragging canvas {
-  cursor: grabbing;
+/* The drawing and its labels share one box the shape of the drawing's viewBox. */
+.board-frame {
+  position: relative;
+  aspect-ratio: 640 / 600;
 }
 
-.telemetry .hour-tag {
-  position: absolute;
-  transform: translate(-50%, -50%);
-  font-size: var(--step--2);
-  color: var(--mist);
-  pointer-events: none;
+/* Until js/board.js has decided what is built, show nothing rather than flash the whole board. */
+.js .board-svg [data-build] {
+  opacity: 0;
 }
 
-.telemetry-legend {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
+/* The stage being built: its outlines turn amber while its parts drop in. */
+.board-svg [data-build].is-current .iso-edge {
+  stroke: var(--amber);
+  transition: stroke 0.4s;
+}
+
+.board-caption {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  gap: var(--space-2) var(--space-4);
+  justify-content: space-between;
+  gap: var(--space-1) var(--space-3);
+  margin-top: var(--space-2);
   font-size: var(--step--2);
   color: var(--mist);
 }
 
-/* An author display value beats the UA rule for [hidden], so restate it. */
-.telemetry-legend[hidden] {
-  display: none;
+.board-readout {
+  color: var(--cloud);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
 }
 
-.telemetry-legend span::before {
+/* The key to the power-on colours, shown once the board starts to power up. */
+.board-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-3);
+  flex-basis: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.board-legend li::before {
   content: "";
   display: inline-block;
-  width: 14px;
-  height: 2px;
-  margin-right: 0.6em;
-  vertical-align: 0.3em;
-  background: currentColor;
+  width: 1.4em;
+  height: 0;
+  margin-right: 0.5em;
+  vertical-align: middle;
+  border-top: 2px solid var(--key);
 }
 
-.telemetry-legend .key-me {
-  color: var(--amber);
-}
+.board-legend [data-key="power"] { --key: var(--amber); }
+.board-legend [data-key="signal"] { --key: var(--transit); }
+.board-legend [data-key="clock"] { --key: var(--cloud); }
+.board-legend [data-key="clock"]::before { border-top-style: dotted; }
 
-.telemetry-legend .key-you {
-  color: var(--cloud);
-}
-
-.telemetry-legend .key-ring {
-  color: var(--transit);
-}
-
-/* The keyboard control for the plane: a real range input, visible only when focused. */
-.hour-control {
-  position: absolute;
-  left: 50%;
-  bottom: 2.25rem;
-  width: 60%;
-  transform: translateX(-50%);
+.js .board-legend {
   opacity: 0;
-  accent-color: var(--amber);
+  transition: opacity 0.6s;
 }
 
-.hour-control:focus-visible {
+.js .board.is-powered .board-legend {
   opacity: 1;
 }
 
-/* Fallback dial, shown only without WebGL. */
-.dial {
+/*
+ * Part labels, named after skills. Without JavaScript they are a plain list under the drawing;
+ * js/board.js hangs each one on a leader from its part (left and top in % of the frame).
+ */
+.board-labels {
+  list-style: none;
+  margin: var(--space-3) 0 0;
+  padding: 0;
+  font-size: var(--step--2);
+  letter-spacing: 0.08em;
+  line-height: 1.35;
+}
+
+.board-label-part {
+  color: var(--mist);
+}
+
+.board-label-skill {
+  color: var(--cloud);
+}
+
+.board-labels.is-placed {
   position: absolute;
   inset: 0;
+  margin: 0;
+  pointer-events: none;
 }
 
-.telemetry.has-3d .dial,
-.dial[hidden] {
-  display: none;
+.board-labels.is-placed li {
+  position: absolute;
+  display: grid;
+  width: max-content;
+  max-width: 10.5em;
+  opacity: 0;
+  /* Centred on the leader's end, then pushed out along the leader by half the label's size. */
+  transform: translate(calc((var(--ax) - 1) * 50% + var(--ax) * 0.5em), calc((var(--ay) - 1) * 50% + var(--ay) * 0.5em)) scale(0.96);
+  transition: opacity 0.5s, transform 0.5s var(--heavy);
 }
 
-.dial svg {
+.board-labels.is-placed li[data-align="start"] {
+  text-align: left;
+}
+
+.board-labels.is-placed li[data-align="middle"] {
+  text-align: center;
+}
+
+.board-labels.is-placed li[data-align="end"] {
+  text-align: right;
+}
+
+.board-labels.is-placed li.is-in {
+  opacity: 1;
+  transform: translate(calc((var(--ax) - 1) * 50% + var(--ax) * 0.5em), calc((var(--ay) - 1) * 50% + var(--ay) * 0.5em));
+}
+
+.board-labels li.is-current .board-label-skill {
+  color: var(--amber);
+}
+
+.board-leaders {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
+  overflow: visible;
+  pointer-events: none;
 }
 
-.dial .ring {
+.board-leaders g {
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+.board-leaders g.is-in {
+  opacity: 1;
+}
+
+.board-leaders path {
   fill: none;
-  stroke: var(--transit);
-  stroke-width: 1;
-  stroke-dasharray: 2 6;
+  stroke: var(--mist);
+  stroke-opacity: 0.55;
+  stroke-width: 0.6px;
+  vector-effect: non-scaling-stroke;
 }
 
-.dial .arc {
-  fill: none;
-  stroke-linecap: round;
-  stroke-width: 4;
+.board-leaders circle {
+  fill: var(--cloud);
 }
 
-.dial .arc-me {
-  stroke: var(--amber);
+.board-leaders .board-leader-end {
+  fill: var(--mist);
 }
 
-.dial .arc-you {
-  stroke: var(--cloud);
-}
-
-.dial .globe {
-  fill: var(--panel);
-  stroke: var(--transit);
-  stroke-opacity: 0.5;
-}
-
-.dial .home {
+.board-leaders g.is-current circle,
+.board-leaders g.is-current .board-leader-end {
   fill: var(--amber);
 }
 
-.dial .plane {
-  fill: var(--cloud);
+.board-leaders g.is-current path {
+  stroke: var(--amber);
+  stroke-opacity: 0.8;
+}
+
+/* On narrow screens the drawing crops to the board and the caption names the part being built. */
+@media (max-width: 40rem) {
+  .board-labels.is-placed,
+  .board-leaders {
+    display: none;
+  }
+
+  .board-caption {
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .board-readout {
+    text-align: left;
+  }
+}
+
+/*
+ * The pinned hero: with JavaScript the wrapper is several screens tall and the hero sticks under
+ * the masthead while the introduction builds and the board builds and powers on (js/board.js reads
+ * how far through it the page is). The pieces of the introduction wait, hidden, for their share of
+ * that scroll.
+ */
+.js .hero-pin {
+  height: 520svh;
+}
+
+.js .hero-pin > .hero {
+  position: sticky;
+  top: 3.5rem;
+  height: calc(100svh - 3.5rem);
+  min-height: 0;
+  padding-top: var(--space-3);
+  padding-bottom: var(--space-3);
+}
+
+.js [data-intro] {
+  transition: opacity 0.6s, transform 0.6s var(--heavy);
+}
+
+.js [data-intro]:not(.is-in) {
+  opacity: 0;
+}
+
+.js ul[data-intro]:not(.is-in) {
+  transform: translateY(14px);
+  visibility: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js [data-intro],
+  .board-labels.is-placed li,
+  .board-leaders g,
+  .board-net,
+  .board-led {
+    transition: none;
+  }
+
+  .board-net.is-live:not([data-kind="power"]) {
+    animation: none;
+  }
 }
 
 /*
@@ -542,11 +754,6 @@ nav a[aria-current="true"]::before {
 .hud-date {
   margin-left: 0.6em;
   color: var(--cloud);
-}
-
-.hud-scrub {
-  font-size: var(--step--2);
-  color: var(--amber);
 }
 
 @media (max-width: 40rem) {

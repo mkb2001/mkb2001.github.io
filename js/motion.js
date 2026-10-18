@@ -82,20 +82,24 @@ if (gsap && ScrollTrigger) {
     };
   }
 
-  /** The hero arrives: name, captioned bio, links, then the globe. */
+  /** The hero arrives: name and the first line of the bio. js/board.js builds the board beside them. */
   function hero() {
     const tl = gsap.timeline({ defaults: { ease: "heavy" } });
 
     // Name: each line slides up from behind its mask.
     tl.from($$("[data-reveal]"), { yPercent: 115, duration: 1.4, stagger: 0.12 }, 0.1);
 
-    // Bio: words appear one at a time, like live captions, with an amber caret after the last.
-    const bio = $("[data-bio]");
-    if (bio && SplitText) {
-      const split = SplitText.create(bio, { type: "words" });
-      const caret = document.createElement("span");
-      caret.className = "caret";
-      caret.setAttribute("aria-hidden", "true");
+    // Bio: words appear one at a time, like live captions, with an amber caret after the last. The
+    // first sentence types as the page opens; the rest type as the pinned hero scrolls them in
+    // (js/board.js announces each one with an "intro" event).
+    const caret = document.createElement("span");
+    caret.className = "caret";
+    caret.setAttribute("aria-hidden", "true");
+    const typed = new Map();
+    const type = (piece) => {
+      if (!SplitText) return null;
+      typed.get(piece)?.kill();
+      const split = piece._split ?? (piece._split = SplitText.create(piece, { type: "words" }));
       gsap.set(split.words, { autoAlpha: 0 });
       const typing = gsap.timeline();
       split.words.forEach((word, i) => {
@@ -103,15 +107,21 @@ if (gsap && ScrollTrigger) {
         const at = i * 0.07 + Math.floor(i / 5) * 0.18;
         typing.set(word, { autoAlpha: 1 }, at).call(() => word.after(caret), null, at);
       });
-      typing.to(caret, { autoAlpha: 0, repeat: 5, yoyo: true, duration: 0.45, ease: "steps(1)" }).set(caret, { autoAlpha: 0 });
-      tl.add(typing, 1.1);
+      typing.set(caret, { autoAlpha: 1 }, 0).to(caret, { autoAlpha: 0, repeat: 5, yoyo: true, duration: 0.45, ease: "steps(1)" }).set(caret, { autoAlpha: 0 });
+      typed.set(piece, typing);
+      return typing;
+    };
+    const first = $("[data-bio] [data-intro]");
+    if (first) {
+      const typing = type(first);
+      if (typing) tl.add(typing, 1.1);
     }
+    document.addEventListener("intro", ({ detail: { el, shown } }) => {
+      if (el === first || !el.closest("[data-bio]")) return;
+      if (shown) type(el);
+      else typed.get(el)?.kill();
+    });
 
-    tl.from($$(".links li"), { y: 14, autoAlpha: 0, duration: 0.9, stagger: 0.08 }, ">-0.6");
-
-    // The globe fades up as the text settles.
-    const telemetry = $("[data-telemetry]");
-    if (telemetry) tl.from(telemetry, { autoAlpha: 0, scale: 0.94, duration: 1.8 }, 0.4);
     tl.from("[data-hud]", { autoAlpha: 0, x: 24, duration: 1 }, 1.2);
   }
 
