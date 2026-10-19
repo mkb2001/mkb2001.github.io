@@ -122,7 +122,7 @@ if (gsap && ScrollTrigger) {
       else typed.get(el)?.kill();
     });
 
-    tl.from("[data-hud]", { autoAlpha: 0, x: 24, duration: 1 }, 1.2);
+    tl.from("[data-hud]", { autoAlpha: 0, duration: 1 }, 1.2);
   }
 
   /** Section headings and projects arrive once, as they come into view. */

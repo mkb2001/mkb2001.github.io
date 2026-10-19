@@ -443,7 +443,7 @@ Lay.SLOTS.forEach((slot) => {
   // The CMOS battery: a CR2032 coin cell on its holder, held by a spring clip.
   const { cx, cy, r } = Lay.CMOS;
   cyl(id, "cmos.holder", cx, cy, r + 1.4, TOP, 0.8, { tone: "mid" }, { steps: 40 });
-  cyl(id, "cmos.cell", cx, cy, r, TOP + 0.8, 3.2, { tone: "hi" }, { steps: 48, bevel: 0.5, extra: L(k.ring(cx, cy, r - 2, TOP + 4, P, 40), { tone: "faint" }) + L(k.lineOnTop([cx - 2, cy], [cx + 2, cy], TOP + 4, P) + k.lineOnTop([cx, cy - 2], [cx, cy + 2], TOP + 4, P), { tone: "mid" }) });
+  cyl(id, "cmos.cell", cx, cy, r, TOP + 0.8, 3.2, { tone: "hi" }, { steps: 48, bevel: 0.5, extra: L(k.ring(cx, cy, r - 2, TOP + 4, P, 40), { tone: "faint" }) + L(k.lineOnTop([cx - 2, cy], [cx + 2, cy], TOP + 4, P) + k.lineOnTop([cx, cy - 2], [cx, cy + 2], TOP + 4, P), { tone: "mid", free: true }) });
   box(id, "cmos.clip", { x: cx - 2.4, y: cy - r - 3.4, w: 4.8, d: 2.4, r: 0.4 }, TOP, 4.4, { tone: "mid" }, { steps: 2 });
   SILK.push(k.ring(cx, cy, r + 2.2, TOP, P, 40));
 }
@@ -635,7 +635,9 @@ for (const item of [...back.map((b) => ({ part: b.id, svg: b.svg })), ...R.items
   if (last && last.part === item.part && item.part !== null) last.svg += item.svg;
   else groups.push({ part: item.part, svg: item.svg });
 }
-const body = groups.map((g) => (g.part === null ? g.svg : `<g ${tag(g.part)}>${g.svg}</g>`)).join("");
+// The screentone the solder mask is printed in: fine dots in screen space, as on a printed page.
+const tone = `<defs><pattern id="board-tone" width="2.6" height="2.6" patternUnits="userSpaceOnUse"><rect class="board-tone-ground" width="2.6" height="2.6"/><circle class="board-tone-dot" cx="1.3" cy="1.3" r="0.45"/></pattern></defs>`;
+const body = tone + groups.map((g) => (g.part === null ? g.svg : `<g ${tag(g.part)}>${g.svg}</g>`)).join("");
 
 // The board's own box in the viewBox, for narrow screens, which crop to it and drop the ring.
 const extent = [...k.boxCorners(TRAY, -12, 0), [Lay.DIMM.slots[0].x, 18, TOP + 36], [0, 12, TOP + 24]].map(at);

@@ -1,9 +1,51 @@
+/*
+ * Type: Dela Gothic One, the heavy Japanese gothic of manga titles, for the name and headings
+ * (its kana load only where kana are used); Zen Kaku Gothic New, a calm Japanese gothic, for
+ * reading; JetBrains Mono for the clock's digits. All self-hosted, SIL Open Font License.
+ */
 @font-face {
-  font-family: "Playfair Display Variable";
+  font-family: "Dela Gothic One";
   font-style: normal;
   font-display: swap;
-  font-weight: 400 900;
-  src: url("fonts/playfair-display-latin-wght-normal.woff2") format("woff2-variations");
+  font-weight: 400;
+  src: url("fonts/dela-gothic-one-latin-400-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Dela Gothic One";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url("fonts/dela-gothic-one-kana-400-normal.woff2") format("woff2");
+  unicode-range: U+2027, U+3001-3002, U+3041-307F, U+3081-308F, U+3091-3093, U+3099-309A, U+309D-309E, U+30A1-30E1, U+30E3-30ED, U+30EF-30F0, U+30F2-30F4, U+30FB-30FE, U+FF0C, U+FF0E;
+}
+
+@font-face {
+  font-family: "Zen Kaku Gothic New";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url("fonts/zen-kaku-gothic-new-latin-400-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Zen Kaku Gothic New";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 500;
+  src: url("fonts/zen-kaku-gothic-new-latin-500-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Zen Kaku Gothic New";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 700;
+  src: url("fonts/zen-kaku-gothic-new-latin-700-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
 @font-face {
@@ -15,20 +57,21 @@
 }
 
 /*
- * Design tokens: Air Traffic Control / Global Transit. "Elegant industrial": a deep abyss,
- * soft cloud text, and two signal colours that each have one job.
- * --amber marks Kampala and anything active. --transit is the routes and the rails.
+ * Design tokens: a manga page. Sumi ink on warm paper, screentone greys, and one spot colour that
+ * has one job: --spot, a manga-cover red, marks anything active. --wire, a blue-black ink, is the
+ * routes and signals. Both inks pass WCAG AA on the paper for body text.
  */
 :root {
-  --abyss: #0a0a0c;
-  --panel: #131317;
-  --cloud: #e8e8e6;
-  --mist: #8e8e93;
-  --line: #26262c;
-  --amber: #ff8c00;
-  --transit: #4a90e2;
+  --paper: #f4efe4;
+  --paper-deep: #ebe4d6;
+  --ink: #16130f;
+  --ink-soft: #5e574d;
+  --rule: #d3cab9;
+  --spot: #d4231b;
+  --wire: #24365c;
 
-  --serif: "Playfair Display Variable", "Didot", Georgia, serif;
+  --display: "Dela Gothic One", "Hiragino Sans", "Yu Gothic", sans-serif;
+  --text: "Zen Kaku Gothic New", "Hiragino Sans", "Helvetica Neue", Arial, sans-serif;
   --mono: "JetBrains Mono Variable", ui-monospace, "SFMono-Regular", Menlo, monospace;
 
   /* Type scale, ratio 1.25 from a 16px mono body. Display sizes are deliberately oversized. */
@@ -54,7 +97,7 @@
 
   --heavy: cubic-bezier(0.16, 1, 0.3, 1);
 
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 *,
@@ -85,11 +128,11 @@ html.lenis body {
 
 body {
   margin: 0;
-  background: var(--abyss);
-  color: var(--cloud);
-  font-family: var(--mono);
-  font-size: var(--step-0);
-  line-height: 1.7;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--text);
+  font-size: 1.0625rem;
+  line-height: 1.75;
   overflow-x: clip;
   -webkit-font-smoothing: antialiased;
 }
@@ -97,12 +140,19 @@ body {
 h1,
 h2,
 h3 {
-  font-family: var(--serif);
-  font-weight: 500;
-  line-height: 1.05;
-  letter-spacing: -0.01em;
+  font-family: var(--display);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: 0;
   text-wrap: balance;
   margin: 0;
+}
+
+/* Smaller headings are read rather than seen: they take the reading face, bold. */
+h3 {
+  font-family: var(--text);
+  font-weight: 700;
+  line-height: 1.3;
 }
 
 p {
@@ -111,18 +161,18 @@ p {
 }
 
 a {
-  color: var(--cloud);
-  text-decoration-color: var(--amber);
+  color: var(--ink);
+  text-decoration-color: var(--spot);
   text-decoration-thickness: 1px;
   text-underline-offset: 0.3em;
 }
 
 a:hover {
-  color: var(--amber);
+  color: var(--spot);
 }
 
 :focus-visible {
-  outline: 2px solid var(--amber);
+  outline: 2px solid var(--spot);
   outline-offset: 3px;
   border-radius: 2px;
 }
@@ -133,12 +183,12 @@ ul {
   list-style: none;
 }
 
-/* Small uppercase mono with wide tracking: labels, links, the bio and the clock. */
+/* Small bold capitals with open tracking, for short labels: the nav, the links, the skills. */
 .label {
-  font-family: var(--mono);
+  font-family: var(--text);
   font-size: var(--step--1);
-  font-weight: 400;
-  letter-spacing: 0.14em;
+  font-weight: 700;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 
@@ -156,8 +206,8 @@ ul {
   left: var(--gutter);
   top: -3rem;
   padding: var(--space-2) var(--space-3);
-  background: var(--cloud);
-  color: var(--abyss);
+  background: var(--ink);
+  color: var(--paper);
   z-index: 20;
 }
 
@@ -186,21 +236,21 @@ ul {
 
 .transit .route {
   fill: none;
-  stroke: var(--transit);
+  stroke: var(--wire);
   stroke-width: 1;
-  stroke-opacity: 0.16;
+  stroke-opacity: 0.12;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
 
 .transit .route-hot {
-  stroke: var(--amber);
-  stroke-opacity: 0.22;
+  stroke: var(--spot);
+  stroke-opacity: 0.18;
 }
 
 .transit .node {
-  fill: var(--abyss);
-  stroke: var(--transit);
+  fill: var(--paper);
+  stroke: var(--wire);
   stroke-opacity: 0.3;
   stroke-width: 1;
 }
@@ -210,31 +260,27 @@ ul {
   position: sticky;
   top: 0;
   z-index: 10;
-  background: color-mix(in srgb, var(--abyss) 85%, transparent);
+  background: color-mix(in srgb, var(--paper) 88%, transparent);
   backdrop-filter: blur(8px);
-  border-bottom: 1px solid var(--line);
+  border-bottom: 2px solid var(--ink);
 }
 
 .masthead-inner {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   gap: var(--space-2) var(--space-4);
   min-height: 3.5rem;
 }
 
 .masthead a {
-  color: var(--mist);
+  color: var(--ink-soft);
   text-decoration: none;
 }
 
 .masthead a:hover,
 .masthead a[aria-current="true"] {
-  color: var(--cloud);
-}
-
-.masthead-name {
-  color: var(--cloud) !important;
+  color: var(--ink);
 }
 
 nav {
@@ -249,7 +295,7 @@ nav a[aria-current="true"]::before {
   height: 6px;
   margin-right: 0.6em;
   border-radius: 50%;
-  background: var(--amber);
+  background: var(--spot);
   vertical-align: 0.15em;
 }
 
@@ -257,14 +303,14 @@ nav a[aria-current="true"]::before {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: -1px;
-  height: 1px;
+  bottom: -2px;
+  height: 2px;
 }
 
 .trail-fill {
   position: absolute;
   inset: 0;
-  background: var(--amber);
+  background: var(--spot);
   transform-origin: left center;
   transform: scaleX(0);
 }
@@ -286,11 +332,34 @@ nav a[aria-current="true"]::before {
   }
 }
 
+.hero-copy {
+  position: relative;
+}
+
 .hero h1 {
-  font-size: var(--step-4);
-  font-weight: 500;
-  line-height: 0.95;
-  letter-spacing: -0.025em;
+  font-size: clamp(2.8rem, 1rem + 4.6vw, 5.6rem);
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+
+/* The name in katakana, set vertically in red down the edge of the introduction, as a title runs
+   down a manga cover. */
+.hero-kana {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  writing-mode: vertical-rl;
+  font-family: var(--display);
+  font-size: var(--step-1);
+  letter-spacing: 0.18em;
+  color: var(--spot);
+}
+
+@media (max-width: 40rem) {
+  .hero-kana {
+    display: none;
+  }
 }
 
 /* The mask the name slides up from behind. */
@@ -301,10 +370,11 @@ nav a[aria-current="true"]::before {
 }
 
 .bio {
-  max-width: 34rem;
+  max-width: 32rem;
   margin: var(--space-5) 0 0;
-  line-height: 2;
-  color: var(--cloud);
+  font-size: var(--step-1);
+  line-height: 1.7;
+  color: var(--ink);
 }
 
 /* The caption cursor that follows the bio as it types out. */
@@ -314,7 +384,7 @@ nav a[aria-current="true"]::before {
   height: 1.1em;
   margin-left: 0.15em;
   vertical-align: -0.2em;
-  background: var(--amber);
+  background: var(--spot);
 }
 
 .links {
@@ -343,7 +413,7 @@ nav a[aria-current="true"]::before {
   display: block;
   width: 2px;
   height: 100%;
-  background: var(--amber);
+  background: var(--spot);
   transform: scaleY(0.2);
   transform-origin: center;
 }
@@ -352,28 +422,29 @@ nav a[aria-current="true"]::before {
  * The hero motherboard. tools/board/build.mjs draws it with the iso kit; js/board.js builds it part
  * by part while the hero is pinned, then powers it on. Without JavaScript the finished board shows.
  *
- * The kit's tokens, tuned to the page: the paper is the page colour, so each solid hides what is
- * behind it; the lit edge is --cloud. --amber marks the stage being built and, at power-on, the
- * rails that are live; --transit is the signals.
+ * The kit's tokens, tuned to the page: ink on paper, like a manga's technical page. The paper is the
+ * page colour, so each solid hides what is behind it; the sides take warm screentone greys and the
+ * outlines are ink. --spot marks the stage being built and, at power-on, the rails that are live;
+ * --wire is the signals.
  */
 .iso {
-  --anatomy-paper: var(--abyss);
-  --anatomy-face: #141418;
-  --anatomy-top: #18181d;
-  --anatomy-shade-0: #0c0c0f;
-  --anatomy-shade-1: #0f0f13;
-  --anatomy-shade-2: #121216;
-  --anatomy-shade-3: #15151a;
-  --anatomy-lit-top: #232329;
-  --anatomy-lit-shade: #1b1b21;
-  --anatomy-hi: #d9d9d5;
-  --anatomy-mid: #73737a;
-  --anatomy-lo: #3f3f46;
-  --anatomy-faint: #28282f;
-  --anatomy-lit: var(--cloud);
-  --anatomy-halo: #000;
-  --anatomy-halo-opacity: 0.9;
-  --anatomy-dot: var(--cloud);
+  --anatomy-paper: var(--paper);
+  --anatomy-face: #fbf8f1;
+  --anatomy-top: #fbf8f1;
+  --anatomy-shade-0: #d8d0c1;
+  --anatomy-shade-1: #e1dacc;
+  --anatomy-shade-2: #e9e3d7;
+  --anatomy-shade-3: #f0ebe1;
+  --anatomy-lit-top: #ffffff;
+  --anatomy-lit-shade: #ece6db;
+  --anatomy-hi: var(--ink);
+  --anatomy-mid: #6f685d;
+  --anatomy-lo: #a49b8d;
+  --anatomy-faint: #cbc2b2;
+  --anatomy-lit: #000;
+  --anatomy-halo: #6e6150;
+  --anatomy-halo-opacity: 0.3;
+  --anatomy-dot: var(--ink);
   --anatomy-weight: 0.6px;
   --anatomy-mono: var(--mono);
 }
@@ -410,41 +481,44 @@ nav a[aria-current="true"]::before {
 
 /* Parts of the board that are not kit solids: copper, holes, pins, the solder mask, the silkscreen. */
 .board-svg {
-  --board-copper: #2b1d14;
-  --board-copper-line: #9a6a44;
-  --board-mask: #121317;
-  --board-silk: #a3a3a6;
+  --board-copper: #e2c19c;
+  --board-copper-line: #a0663b;
+  --board-mask: #ebe5d9;
+  --board-silk: var(--ink);
 }
-.board-bench .iso-top { fill: #0e0e11; }
+.board-bench .iso-top { fill: #e6dfd1; }
 .board-copper { fill: var(--board-copper); stroke: none; }
 .board-trace { fill: none; stroke: var(--board-copper-line); stroke-width: 0.45px; stroke-linecap: round; stroke-linejoin: round; }
-.board-holes { fill: none; stroke: var(--abyss); stroke-width: 1.2px; stroke-linecap: round; }
-.board-void { fill: #030304; stroke: none; }
+.board-holes { fill: none; stroke: var(--paper); stroke-width: 1.2px; stroke-linecap: round; }
+.board-void { fill: var(--ink); stroke: none; }
 .board-vias { fill: none; stroke: var(--board-copper-line); stroke-width: 1.1px; stroke-linecap: round; }
-.board-vias-masked { stroke: #2a2a30; }
-.board-mask .iso-top { fill: var(--board-mask); }
-.board-mask-pour { fill: #fff; fill-opacity: 0.045; stroke: none; }
-.board-mask-trace { fill: none; stroke: #fff; stroke-opacity: 0.12; stroke-width: 0.45px; stroke-linecap: round; }
+.board-vias-masked { stroke: #b4ab9b; }
+/* The solder mask is printed as a screentone: fine dots over a pale ground (a pattern in the SVG). */
+.board-mask .iso-top { fill: url(#board-tone); }
+.board-tone-ground { fill: var(--board-mask); }
+.board-tone-dot { fill: var(--ink); fill-opacity: 0.2; }
+.board-mask-pour { fill: var(--ink); fill-opacity: 0.05; stroke: none; }
+.board-mask-trace { fill: none; stroke: var(--ink); stroke-opacity: 0.16; stroke-width: 0.45px; stroke-linecap: round; }
 .board-silk .board-silk-line { stroke: var(--board-silk); stroke-opacity: 0.55; stroke-width: 0.45px; }
 .board-silk .iso-face-text { fill: var(--board-silk); opacity: 0.65; }
 .board-pins { fill: none; stroke: var(--anatomy-mid); stroke-opacity: 0.75; stroke-width: 0.8px; stroke-linecap: round; }
 .board-pins-bright { stroke: var(--anatomy-hi); stroke-opacity: 1; }
-.board-led { fill: #1d1d22; transition: fill 0.25s; }
-.board-led.is-live { fill: var(--amber); }
+.board-led { fill: #cfc6b6; transition: fill 0.25s; }
+.board-led.is-live { fill: var(--spot); }
 
 /*
  * The power-on: rails glow amber along their copper, signals run as blue pulses and the clock
  * ticks in white. js/board.js marks each live net's routes and parts with .is-live.
  */
 .board-net { fill: none; stroke-linecap: round; stroke-linejoin: round; opacity: 0; transition: opacity 0.5s; }
-.board-net[data-kind="power"] { stroke: var(--amber); stroke-width: 2.2px; }
-.board-net[data-kind="signal"] { stroke: var(--transit); stroke-width: 1.3px; stroke-dasharray: 3 9; }
-.board-net[data-kind="clock"] { stroke: var(--cloud); stroke-width: 1px; stroke-dasharray: 1 5; }
+.board-net[data-kind="power"] { stroke: var(--spot); stroke-width: 2.2px; }
+.board-net[data-kind="signal"] { stroke: var(--wire); stroke-width: 1.3px; stroke-dasharray: 3 9; }
+.board-net[data-kind="clock"] { stroke: var(--ink); stroke-width: 1px; stroke-dasharray: 1 5; }
 .board-net.is-live { opacity: 0.85; }
-.board-net[data-kind="power"].is-live { opacity: 0.45; }
+.board-net[data-kind="power"].is-live { opacity: 0.6; }
 .board-net.is-live:not([data-kind="power"]) { animation: board-flow 1.2s linear infinite; }
 [data-glow] .iso-edge { transition: stroke 0.5s; }
-[data-glow].is-live .iso-edge { stroke: var(--amber); }
+[data-glow].is-live .iso-edge { stroke: var(--spot); }
 
 @keyframes board-flow {
   to { stroke-dashoffset: -24; }
@@ -457,18 +531,25 @@ nav a[aria-current="true"]::before {
   margin: 0;
 }
 
-/* Beside the introduction, the drawing rises to the top of the pinned hero to make room for its
-   labels, and the introduction stays centred against it. */
-@media (min-width: 62rem) {
-  .js .hero-pin > .hero {
-    align-content: start;
-  }
-}
-
 /* The drawing and its labels share one box the shape of the drawing's viewBox. */
 .board-frame {
   position: relative;
+  isolation: isolate;
   aspect-ratio: 640 / 600;
+}
+
+/* A burst of halftone dots behind the board, fading out toward the edges. */
+.board-frame::before {
+  content: "";
+  position: absolute;
+  inset: 6% 2%;
+  z-index: -1;
+  background-image: radial-gradient(var(--ink) 0.9px, transparent 1.2px);
+  background-size: 7px 7px;
+  opacity: 0.16;
+  -webkit-mask-image: radial-gradient(closest-side, #000 25%, transparent 100%);
+  mask-image: radial-gradient(closest-side, #000 25%, transparent 100%);
+  pointer-events: none;
 }
 
 /* Until js/board.js has decided what is built, show nothing rather than flash the whole board. */
@@ -478,59 +559,8 @@ nav a[aria-current="true"]::before {
 
 /* The stage being built: its outlines turn amber while its parts drop in. */
 .board-svg [data-build].is-current .iso-edge {
-  stroke: var(--amber);
+  stroke: var(--spot);
   transition: stroke 0.4s;
-}
-
-.board-caption {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: var(--space-1) var(--space-3);
-  margin-top: var(--space-2);
-  font-size: var(--step--2);
-  color: var(--mist);
-}
-
-.board-readout {
-  color: var(--cloud);
-  font-variant-numeric: tabular-nums;
-  text-align: right;
-}
-
-/* The key to the power-on colours, shown once the board starts to power up. */
-.board-legend {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-1) var(--space-3);
-  flex-basis: 100%;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.board-legend li::before {
-  content: "";
-  display: inline-block;
-  width: 1.4em;
-  height: 0;
-  margin-right: 0.5em;
-  vertical-align: middle;
-  border-top: 2px solid var(--key);
-}
-
-.board-legend [data-key="power"] { --key: var(--amber); }
-.board-legend [data-key="signal"] { --key: var(--transit); }
-.board-legend [data-key="clock"] { --key: var(--cloud); }
-.board-legend [data-key="clock"]::before { border-top-style: dotted; }
-
-.js .board-legend {
-  opacity: 0;
-  transition: opacity 0.6s;
-}
-
-.js .board.is-powered .board-legend {
-  opacity: 1;
 }
 
 /*
@@ -547,11 +577,11 @@ nav a[aria-current="true"]::before {
 }
 
 .board-label-part {
-  color: var(--mist);
+  color: var(--ink-soft);
 }
 
 .board-label-skill {
-  color: var(--cloud);
+  color: var(--ink);
 }
 
 .board-labels.is-placed {
@@ -590,7 +620,7 @@ nav a[aria-current="true"]::before {
 }
 
 .board-labels li.is-current .board-label-skill {
-  color: var(--amber);
+  color: var(--spot);
 }
 
 .board-leaders {
@@ -613,50 +643,41 @@ nav a[aria-current="true"]::before {
 
 .board-leaders path {
   fill: none;
-  stroke: var(--mist);
+  stroke: var(--ink-soft);
   stroke-opacity: 0.55;
   stroke-width: 0.6px;
   vector-effect: non-scaling-stroke;
 }
 
 .board-leaders circle {
-  fill: var(--cloud);
+  fill: var(--ink);
 }
 
 .board-leaders .board-leader-end {
-  fill: var(--mist);
+  fill: var(--ink-soft);
 }
 
 .board-leaders g.is-current circle,
 .board-leaders g.is-current .board-leader-end {
-  fill: var(--amber);
+  fill: var(--spot);
 }
 
 .board-leaders g.is-current path {
-  stroke: var(--amber);
+  stroke: var(--spot);
   stroke-opacity: 0.8;
 }
 
-/* On narrow screens the drawing crops to the board and the caption names the part being built. */
+/* On narrow screens the drawing crops to the board and the labels stay out. */
 @media (max-width: 40rem) {
   .board-labels.is-placed,
   .board-leaders {
     display: none;
   }
-
-  .board-caption {
-    flex-direction: column;
-    gap: var(--space-1);
-  }
-
-  .board-readout {
-    text-align: left;
-  }
 }
 
 /*
  * The pinned hero: with JavaScript the wrapper is several screens tall and the hero sticks under
- * the masthead while the introduction builds and the board builds and powers on (js/board.js reads
+ * the masthead while the introduction arrives and the board builds and powers on (js/board.js reads
  * how far through it the page is). The pieces of the introduction wait, hidden, for their share of
  * that scroll.
  */
@@ -701,67 +722,39 @@ nav a[aria-current="true"]::before {
 }
 
 /*
- * HUD: the high-precision Kampala clock, fixed bottom right. While the plane is dragged it shows
- * the chosen hour on both clocks instead.
+ * The clock: Kevin's local time to the microsecond, just above his name in the hero (js/hours.js).
  */
 .hud {
-  position: fixed;
-  right: var(--gutter);
-  bottom: var(--space-4);
-  z-index: 9;
-  display: grid;
-  gap: 0.15rem;
-  padding: 0.7rem 0.9rem;
-  border: 1px solid var(--line);
-  border-left: 2px solid var(--amber);
-  background: color-mix(in srgb, var(--abyss) 88%, transparent);
-  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: baseline;
+  margin: 0 0 var(--space-3);
+  font-family: var(--mono);
+  font-size: var(--step-2);
+  font-weight: 500;
+  line-height: 1;
+  color: var(--ink);
   font-variant-numeric: tabular-nums;
-  pointer-events: none;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
 }
 
 .hud[hidden] {
   display: none;
 }
 
-.hud-label {
-  font-size: var(--step--2);
-  color: var(--mist);
-}
-
-.hud-time {
-  font-size: var(--step-1);
-  font-weight: 500;
-  letter-spacing: 0.04em;
-  white-space: nowrap;
-}
-
 .hud-sub {
-  color: var(--mist);
-  font-size: 0.7em;
+  color: var(--ink-soft);
+  font-size: 0.6em;
 }
 
 .hud-us {
-  color: var(--amber);
+  color: var(--spot);
 }
 
 /* Browsers do not measure nanoseconds; these digits roll as a display effect (see js/hours.js). */
 .hud-ns {
-  color: var(--amber);
+  color: var(--spot);
   opacity: 0.55;
-}
-
-.hud-date {
-  margin-left: 0.6em;
-  color: var(--cloud);
-}
-
-@media (max-width: 40rem) {
-  .hud {
-    right: 50%;
-    transform: translateX(50%);
-    bottom: var(--space-3);
-  }
 }
 
 /* Section blocks: heading in a narrow left column, content on the right. */
@@ -776,16 +769,17 @@ nav a[aria-current="true"]::before {
 .block::before {
   content: "";
   grid-column: 1 / -1;
-  border-top: 1px solid var(--line);
+  border-top: 3px solid var(--ink);
 }
 
+/* The title face is wide: sized so the longest one-word heading ("Experience") fits its column. */
 .block-title {
-  font-size: var(--step-3);
+  font-size: clamp(1.7rem, 1rem + 1.4vw, 2.3rem);
 }
 
 @media (min-width: 52rem) {
   .block {
-    grid-template-columns: 16rem minmax(0, 1fr);
+    grid-template-columns: 17rem minmax(0, 1fr);
     column-gap: var(--space-6);
   }
 }
@@ -804,7 +798,7 @@ nav a[aria-current="true"]::before {
   font-size: var(--step--1);
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--mist);
+  color: var(--ink-soft);
 }
 
 .featured-meta,
@@ -819,10 +813,10 @@ nav a[aria-current="true"]::before {
 }
 
 .featured-outcome {
-  font-family: var(--serif);
+  font-family: var(--display);
   font-size: var(--step-2);
   line-height: 1.25;
-  color: var(--amber);
+  color: var(--spot);
   margin-bottom: var(--space-5);
 }
 
@@ -834,8 +828,8 @@ nav a[aria-current="true"]::before {
 .callpath {
   margin: 0 0 var(--space-5);
   padding: var(--space-4);
-  background: var(--panel);
-  border: 1px solid var(--line);
+  background: var(--paper);
+  border: 2px solid var(--ink);
 }
 
 .steps {
@@ -853,20 +847,21 @@ nav a[aria-current="true"]::before {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   padding: var(--space-2) var(--space-3);
-  border: 1px solid var(--line);
-  background: var(--abyss);
+  border: 1.5px solid var(--ink);
+  background: var(--paper);
 }
 
 .step-live {
-  border-color: var(--amber);
+  border-color: var(--spot);
+  box-shadow: 3px 3px 0 var(--spot);
 }
 
 .store {
   display: block;
   margin-top: var(--space-2);
   padding-top: var(--space-2);
-  border-top: 1px dashed var(--line);
-  color: var(--mist);
+  border-top: 1px dashed var(--rule);
+  color: var(--ink-soft);
 }
 
 /* Connectors. The two either side of the stream service carry live audio. */
@@ -876,14 +871,14 @@ nav a[aria-current="true"]::before {
   left: var(--space-4);
   top: 100%;
   height: var(--space-4);
-  border-left: 1px solid var(--transit);
+  border-left: 1px solid var(--wire);
   transform-origin: top center;
   transform: scaleY(var(--draw, 1));
 }
 
 .step:nth-child(2)::after,
 .step-live::after {
-  border-color: var(--amber);
+  border-color: var(--spot);
 }
 
 @media (min-width: 40rem) {
@@ -898,14 +893,14 @@ nav a[aria-current="true"]::before {
     width: var(--space-4);
     height: 0;
     border-left: 0;
-    border-top: 1px solid var(--transit);
+    border-top: 1px solid var(--wire);
     transform-origin: left center;
     transform: scaleX(var(--draw, 1));
   }
 
   .step:nth-child(2)::after,
   .step-live::after {
-    border-color: var(--amber);
+    border-color: var(--spot);
   }
 }
 
@@ -916,15 +911,14 @@ nav a[aria-current="true"]::before {
   height: 6px;
   margin: -3px 0 0 -3px;
   border-radius: 50%;
-  background: var(--amber);
-  box-shadow: 0 0 10px var(--amber);
+  background: var(--spot);
   opacity: 0;
   pointer-events: none;
 }
 
 .callpath figcaption {
   font-size: var(--step--1);
-  color: var(--mist);
+  color: var(--ink-soft);
   max-width: var(--measure);
 }
 
@@ -950,8 +944,8 @@ nav a[aria-current="true"]::before {
 }
 
 .project p:not(.project-meta, .stack) {
-  font-size: var(--step--1);
-  line-height: 1.75;
+  font-size: var(--step-0);
+  line-height: 1.7;
 }
 
 /* Experience: a rail down the left of the roles, drawn by js/motion.js as the page scrolls. */
@@ -971,7 +965,7 @@ nav a[aria-current="true"]::before {
   top: 0.4rem;
   bottom: 0.4rem;
   width: 1px;
-  background: var(--transit);
+  background: var(--wire);
   transform-origin: top center;
   transform: scaleY(var(--flight, 1));
 }
@@ -990,8 +984,8 @@ nav a[aria-current="true"]::before {
   width: 9px;
   height: 9px;
   border-radius: 50%;
-  background: var(--abyss);
-  border: 1px solid var(--amber);
+  background: var(--paper);
+  border: 1px solid var(--spot);
 }
 
 @media (min-width: 40rem) {
@@ -1011,8 +1005,8 @@ nav a[aria-current="true"]::before {
 
 .role-points {
   max-width: var(--measure);
-  font-size: var(--step--1);
-  line-height: 1.75;
+  font-size: var(--step-0);
+  line-height: 1.7;
 }
 
 .role-points li {
@@ -1028,7 +1022,7 @@ nav a[aria-current="true"]::before {
   top: 0.8em;
   width: 0.4rem;
   height: 1px;
-  background: var(--mist);
+  background: var(--ink-soft);
 }
 
 /* Skills */
@@ -1053,20 +1047,20 @@ nav a[aria-current="true"]::before {
   font-size: var(--step--1);
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--mist);
+  color: var(--ink-soft);
 }
 
 .skills dd {
   margin: 0;
-  font-size: var(--step--1);
+  font-size: var(--step-0);
 }
 
 .credentials {
   display: grid;
   gap: var(--space-3);
   padding: var(--space-4);
-  background: var(--panel);
-  border: 1px solid var(--line);
+  background: var(--paper);
+  border: 2px solid var(--ink);
 }
 
 .credentials li {
@@ -1074,12 +1068,12 @@ nav a[aria-current="true"]::before {
 }
 
 .credentials strong {
-  font-weight: 500;
-  font-size: var(--step--1);
+  font-weight: 700;
+  font-size: var(--step-0);
 }
 
 .credentials span {
-  color: var(--mist);
+  color: var(--ink-soft);
   font-size: var(--step--1);
 }
 
@@ -1090,7 +1084,7 @@ nav a[aria-current="true"]::before {
 
 .contact-email {
   display: inline-block;
-  font-family: var(--serif);
+  font-family: var(--display);
   font-size: var(--step-3);
   line-height: 1.15;
   overflow-wrap: anywhere;
@@ -1099,6 +1093,6 @@ nav a[aria-current="true"]::before {
 
 .footer {
   padding-bottom: var(--space-7);
-  color: var(--mist);
+  color: var(--ink-soft);
   font-size: var(--step--1);
 }

@@ -1,11 +1,11 @@
 /**
- * The HUD: a high-precision Kampala clock, fixed bottom right.
+ * The clock just above Kevin's name in the hero: his local time, to the microsecond.
  *
- * Kevin's UTC offset is the data-offset attribute on the HUD in index.html. Without JavaScript
- * the HUD stays hidden.
+ * Kevin's UTC offset is the data-offset attribute on the clock in index.html. Without JavaScript
+ * the clock stays hidden.
  */
 import { utils } from "./vendor/anime.esm.min.js";
-import { clockParts, createEpochClock, stampDate } from "./clock.js";
+import { clockParts, createEpochClock } from "./clock.js";
 
 const hud = document.querySelector("[data-hud]");
 const smooth = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -20,10 +20,8 @@ if (hud) {
   const msEl = $("[data-ms]");
   const usEl = $("[data-us]");
   const nsEl = $("[data-ns]");
-  const dateEl = $("[data-date]");
   const subEl = $(".hud-sub");
 
-  let lastMinute = -1;
   let lastHms = "";
   const tick = () => {
     const t = epochMs();
@@ -38,11 +36,6 @@ if (hud) {
       // Browsers cannot measure nanoseconds (timers stop at 5-100 microseconds, on purpose), so
       // these three digits roll as a display effect rather than claiming a measurement.
       nsEl.textContent = String(utils.random(0, 999)).padStart(3, "0");
-    }
-    const minute = Math.floor(t / 60_000);
-    if (minute !== lastMinute) {
-      lastMinute = minute;
-      dateEl.textContent = stampDate(t, offset);
     }
   };
 

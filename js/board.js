@@ -8,8 +8,8 @@
  *    build order baked into each part's data-build. Scrolling back up takes it apart.
  *  - The introduction arrives along the way: each [data-intro] piece of the hero copy shows once
  *    the pinned scroll reaches its share.
- *  - Each group of parts gets a label named after one of Kevin's skills, hung on a leader from the
- *    part as it is built. The stage being built now has amber outlines and an amber label.
+ *  - Each group of parts gets a label naming one of Kevin's skills, hung on a leader from the part
+ *    as it is built. The stage being built now has amber outlines and an amber label.
  *  - Once complete, the last stretch of the pin powers the board on, one step of the sequence in
  *    js/board-model.js at a time: standby power, the power button, PS_ON#, the main rails, PWR_OK,
  *    the regulators, clocks and reset, the firmware read, memory training and PCIe. Each live net's
@@ -18,7 +18,7 @@
  *
  * With prefers-reduced-motion the parts appear without dropping in and nothing flows.
  */
-import { BOOT, bootStepAt, liveAt, memoryGBps, BOARD } from "./board-model.js";
+import { BOOT, bootStepAt, liveAt } from "./board-model.js";
 
 const NS_SVG = "http://www.w3.org/2000/svg";
 const root = document.querySelector("[data-board]");
@@ -29,8 +29,6 @@ function start() {
   const frame = root.querySelector(".board-frame");
   const svg = stage.querySelector("svg");
   const data = JSON.parse(root.querySelector("[data-board-data]").textContent);
-  const hint = root.querySelector("[data-board-hint]");
-  const readout = root.querySelector("[data-board-readout]");
   const pin = document.querySelector("[data-hero-pin]");
   const intros = [...document.querySelectorAll("[data-intro]")].map((el) => ({ el, at: Number(el.dataset.intro), shown: false }));
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -40,7 +38,6 @@ function start() {
   const BUILD = [0.03, 0.64]; // share of the pinned scroll over which the board builds
   const POWER = [0.68, 0.95]; // and over which it powers on
   const BOOT_LED_SECONDS = 2.5; // the BOOT LED's last check, once the board is running
-  const STAGE_NAMES = ["Bench", "Copper layers", "Top copper, mask and silkscreen", "CPU socket", "Processor", "Voltage regulators", "Memory", "Chipset", "PCIe and storage", "Support chips and headers", "Power, rear I/O and heatsinks"];
   // The status LEDs light while the board checks each of these.
   const LEDS = { cpu: ["vrm", "reset", "firmware"], dram: ["training"], vga: ["enumerate"] };
 
@@ -113,8 +110,8 @@ function start() {
   fitLabels();
   window.addEventListener("resize", fitLabels);
 
-  // Narrow screens have no room for the ring: crop the drawing to the board and name the part
-  // being built in the caption instead.
+  // Narrow screens have no room for the ring: crop the drawing to the board and leave the labels
+  // out.
   const narrow = window.matchMedia("(max-width: 40rem)");
   const fullBox = svg.getAttribute("viewBox");
   const crop = () => {
@@ -122,19 +119,15 @@ function start() {
     svg.setAttribute("viewBox", box);
     const [, , w, h] = box.split(" ").map(Number);
     frame.style.aspectRatio = `${w} / ${h}`;
-    lastText = "";
     kick();
   };
   narrow.addEventListener("change", crop);
 
   // A label shows once its parts start to arrive; it is the current one until they are all built.
-  let latestLabel = null;
   function showLabels() {
-    let latest = -1;
-    labels.forEach((label, i) => {
+    labels.forEach((label) => {
       const started = label.own.some((p) => p.t > 0.15);
       const done = label.own.every((p) => p.t >= 0.97);
-      if (started) latest = i;
       const state = !started ? "" : done ? "in" : "current";
       if (state === label.state) return;
       label.state = state;
@@ -143,7 +136,6 @@ function start() {
         el.classList.toggle("is-current", state === "current");
       }
     });
-    latestLabel = labels[latest] ?? null;
   }
 
   // The stage being built has amber outlines.
@@ -171,8 +163,6 @@ function start() {
     const id = step < 0 ? "" : BOOT[step].id;
     for (const el of leds) el.classList.toggle("is-live", (LEDS[el.dataset.led] ?? []).includes(id));
     runningSince = id === "running" ? clock : -1;
-    root.classList.toggle("is-powered", step > 0);
-    lastText = "";
   }
   function bootLed() {
     const on = runningSince >= 0 && clock - runningSince < BOOT_LED_SECONDS && !reduced;
@@ -195,33 +185,6 @@ function start() {
     return travel < 40 ? 1 : Math.min(1, Math.max(0, (sticky.top - box.top) / travel));
   };
   const targetParts = (share) => Math.min(1, Math.max(0, (share - BUILD[0]) / (BUILD[1] - BUILD[0]))) * (fitted + 0.5);
-
-  // --- Words ---------------------------------------------------------------------------------
-  let lastText = "";
-  function words(complete, built) {
-    let text;
-    let help;
-    if (complete && step > 0) {
-      text = BOOT[step].id === "running" ? `Running · DDR5-${BOARD.memory.mts} · ${memoryGBps().toFixed(1)} GB/s peak` : BOOT[step].say;
-      help = BOOT[step].id === "running" ? "Built from my stack · scroll on" : `Powering on · step ${step} of ${BOOT.length - 1}`;
-    } else if (complete) {
-      text = `Complete · ${total} parts`;
-      help = "Scroll to power it on";
-    } else if (narrow.matches && latestLabel) {
-      // On narrow screens the caption carries the label of the part being built.
-      const skill = latestLabel.li.querySelector(".board-label-skill")?.textContent;
-      text = `${skill} · ${built} / ${total} parts`;
-      help = "Scroll to build the board";
-    } else {
-      const next = parts[Math.min(total - 1, built)];
-      text = `${STAGE_NAMES[next.stage]} · ${built} / ${total} parts`;
-      help = "Scroll to build the board";
-    }
-    if (text === lastText) return;
-    lastText = text;
-    readout.textContent = text;
-    hint.textContent = help;
-  }
 
   function showIntro(share) {
     for (const piece of intros) {
@@ -257,7 +220,6 @@ function start() {
     power(complete ? bootStepAt((share - POWER[0]) / (POWER[1] - POWER[0])) : -1);
     const glowing = bootLed();
     showLabels();
-    words(complete, built);
 
     const busy = !benchDone || shown !== target || glowing;
     frameId = busy && visible() ? requestAnimationFrame(tick) : 0;

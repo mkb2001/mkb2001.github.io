@@ -6,13 +6,11 @@ GitHub Pages.
 ## Editing content
 
 - All text on the page (bio, projects, experience, skills, links) is written directly in `index.html`.
-- Kevin's UTC offset is the `data-offset` attribute on the HUD in `index.html`. If you change it,
-  also change "UTC+3" in the HUD's label.
+- Kevin's UTC offset is the `data-offset` attribute on the clock above the name in `index.html`.
 - The hero motherboard is generated: edit `tools/board/` and run `node tools/board/build.mjs`,
   which rewrites the SVG between the `board:start` and `board:end` markers in `index.html`. Don't
   edit that SVG by hand. `node tools/board/build.mjs --audit` also checks the drawing's geometry
   (nothing sunk into anything, every overlap painted in the right order).
-- The words on the board's labels (the skills) are the list items under the drawing in `index.html`.
 - Colours, fonts and layout are in `styles.css`. The colour tokens are at the top.
 
 To offer a CV download, put the PDF next to `index.html` and add a link to it in the link list.
@@ -23,15 +21,15 @@ To offer a CV download, put the PDF next to `index.html` and add a link to it in
 |---|---|
 | `index.html` | The whole page. Readable with JavaScript turned off. |
 | `styles.css` | Design tokens, font faces and all styles. |
-| `js/hours.js` | The HUD: the high-precision Kampala clock. |
-| `js/board.js` | The hero motherboard: builds it part by part as the page scrolls, hangs a skill label on each part, then powers it on. |
+| `js/hours.js` | The clock above the name in the hero: Kevin's local time to the microsecond. |
+| `js/board.js` | The hero motherboard: builds it part by part as the page scrolls, then powers it on. |
 | `js/board-model.js` | The board's numbers (PCIe, DDR5, the regulators) and its power-on sequence, shared by the build script and `js/board.js`. |
 | `js/motion.js` | Smooth scrolling (Lenis) and the page's GSAP animations. |
 | `js/transit.js` | The transit map drawn slowly in the background (anime.js). |
 | `js/waves.js` | The speech-wave bars beside the links (anime.js). |
 | `js/clock.js` | The clock maths: time to the microsecond, and staying right after the computer sleeps. |
 | `js/vendor/` | GSAP, Lenis and anime.js, self-hosted. |
-| `fonts/` | Playfair Display and JetBrains Mono, self-hosted (SIL Open Font License). |
+| `fonts/` | Dela Gothic One (the name and headings), Zen Kaku Gothic New (reading text) and JetBrains Mono (the clock), self-hosted (SIL Open Font License). |
 | `tools/serve.py` | Local preview server that turns off caching. Not published. |
 | `tools/board/` | The build script that draws the motherboard (`layout.mjs` places the parts, `copper.mjs` routes the copper), and the isometric drawing kit it uses. Not published. |
 
